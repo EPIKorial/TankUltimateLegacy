@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using System;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // Script perméttant la connection en réseau des devices
@@ -15,7 +16,7 @@ public class NetWorkManagerCustom : NetworkManager{
 	public Text errorMessage;
 	public Text IpText;
 
-    public void StartServer()
+    public void startServer()
     {
         SetPort();
         NetworkManager.singleton.StartServer();
@@ -73,6 +74,6 @@ public class NetWorkManagerCustom : NetworkManager{
 	////////////////////////////////////////////////////////////////////////////////////////////
 	public void ChangeSceneTo(string scene)
 	{
-		Application.LoadLevel(scene);
+        SceneManager.LoadScene(1);
 	}
 }
