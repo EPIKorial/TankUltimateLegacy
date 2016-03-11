@@ -12,22 +12,20 @@ public class PlayerManager : NetworkBehaviour {
 	[SyncVar]
 	private int syncLife;
 	
-	// Use this for initialization
 	void Start () {
 
-		if (isLocalPlayer)
+		/*if (isLocalPlayer)
 		{
 			lifeText = transform.FindChild("TankCanvas").transform.FindChild("HP").GetComponent<Text>();
 			restartButton = transform.FindChild("TankCanvas").transform.FindChild("RestartButton").GetComponent<Button>();
 			restartButton.gameObject.SetActive(false);
-		}
+		}*/
 		
 	}
 	
-	// Update is called once per frame
 	void Update () 
 	{
-		if (isLocalPlayer)
+		if (lifeText && isLocalPlayer)
 			lifeText.text = "PV : " + life.ToString();
 			
 		if (isLocalPlayer && life <= 0)
@@ -38,8 +36,8 @@ public class PlayerManager : NetworkBehaviour {
 			transform.FindChild("TankRenderers").transform.FindChild("TankTurret").GetComponent<MeshRenderer>().enabled = false;
 			transform.FindChild("TankRenderers").transform.FindChild("TankTracksRight").GetComponent<MeshRenderer>().enabled = false;
 			transform.FindChild("TankRenderers").transform.FindChild("TankTracksLeft").GetComponent<MeshRenderer>().enabled = false;
-			restartButton.gameObject.SetActive(true);
-			restartButton.onClick.AddListener(RestartFunc);
+			//restartButton.gameObject.SetActive(true);
+			//restartButton.onClick.AddListener(RestartFunc);
 			
 			if (Input.GetKeyDown(KeyCode.R))
 				RestartFunc();
@@ -49,9 +47,9 @@ public class PlayerManager : NetworkBehaviour {
 	
 	void OnTriggerEnter (Collider other)
 	{
-		if (other.tag == "bullet")
+		if (other.tag == "bullet" && other.gameObject.GetComponent<ObuBehaviour>().shooter != this.gameObject)
 		{
-			life -= 10;	
+			life -= 10;
 		}
 	}
 	
@@ -64,7 +62,7 @@ public class PlayerManager : NetworkBehaviour {
 		transform.FindChild("TankRenderers").transform.FindChild("TankTurret").GetComponent<MeshRenderer>().enabled = true;
 		transform.FindChild("TankRenderers").transform.FindChild("TankTracksRight").GetComponent<MeshRenderer>().enabled = true;
 		transform.FindChild("TankRenderers").transform.FindChild("TankTracksLeft").GetComponent<MeshRenderer>().enabled = true;
-		restartButton.onClick.RemoveAllListeners();
-		restartButton.gameObject.SetActive(false);
+		//restartButton.onClick.RemoveAllListeners();
+		//restartButton.gameObject.SetActive(false);
 	}
 }

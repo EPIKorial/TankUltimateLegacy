@@ -14,12 +14,29 @@ using UnityEngine.SceneManagement;
 public class NetWorkManagerCustom : NetworkManager{
 	
 	public Text errorMessage;
-	public Text IpText;
+    public string ip;
+
+    public InputField _inputField;
+    public string myIp;
+
+    void Start()
+    {
+        var ipaddress = Network.player.ipAddress;
+        myIp = ipaddress;
+        _inputField.GetComponent<InputField>().text = PlayerPrefs.GetString("ipServer");
+    }
+
+    void Update()
+    {
+      if (_inputField)
+        ip = _inputField.GetComponent<InputField>().text;
+    }
 
     public void startServer()
     {
         SetPort();
         NetworkManager.singleton.StartServer();
+        ChangeSceneTo(1);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -49,6 +66,7 @@ public class NetWorkManagerCustom : NetworkManager{
 		SetIPAdress();
 		SetPort();
 		NetworkManager.singleton.StartClient();
+      //  ChangeSceneTo(2);
 	}
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +75,9 @@ public class NetWorkManagerCustom : NetworkManager{
 	void SetIPAdress()
 	{
         //NetworkManager.singleton.networkAddress = "localhost";
-        NetworkManager.singleton.networkAddress = IpText.text;
+        PlayerPrefs.SetString("ipServer", ip);
+        PlayerPrefs.Save();
+        NetworkManager.singleton.networkAddress = ip;
 	}
 
     ////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,8 +92,8 @@ public class NetWorkManagerCustom : NetworkManager{
 	////////////////////////////////////////////////////////////////////////////////////////////
 	// Permet de changer de scene
 	////////////////////////////////////////////////////////////////////////////////////////////
-	public void ChangeSceneTo(string scene)
+	public void ChangeSceneTo(int scene)
 	{
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(scene);
 	}
 }

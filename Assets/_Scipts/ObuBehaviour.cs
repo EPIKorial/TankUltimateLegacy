@@ -6,14 +6,15 @@ public class ObuBehaviour : NetworkBehaviour {
 	
 	[SyncVar]
 	public Quaternion direction;
-	
+    public GameObject shooter;
+
 
 	
 	// Update is called once per frame
 	void Update () {
 		
 		this.transform.rotation = direction;
-		transform.Translate(Vector3.forward * 25 * Time.deltaTime, Space.Self);
+		transform.Translate(Vector3.forward * 50 * Time.deltaTime, Space.Self);
 		
 	}
 }

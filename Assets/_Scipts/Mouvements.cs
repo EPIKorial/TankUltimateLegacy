@@ -25,8 +25,8 @@ public class Mouvements : NetworkBehaviour {
 	private float lastRot;
 	
 	public AudioSource _audioS;
-	public AudioSource _audioS2;
-	public AudioClip _shot;
+	//public AudioSource _audioS2;
+	//public AudioClip _shot;
 	public AudioClip idleSound;
 	public AudioClip drivingSound;
 	private bool idle;
@@ -43,7 +43,7 @@ public class Mouvements : NetworkBehaviour {
 		{
 			idle = true;
 			driving = false;
-			_audioS2 = shotSpawn.GetComponent<AudioSource>();
+		//	_audioS2 = shotSpawn.GetComponent<AudioSource>();
 			_audioS = GetComponent<AudioSource>();
 			myTransform.FindChild("Camera").GetComponent<Camera>().enabled = true;
 			myTransform.FindChild("Camera").GetComponent<AudioListener>().enabled = true;
@@ -60,7 +60,7 @@ public class Mouvements : NetworkBehaviour {
 			
 		if (isLocalPlayer && dead == false)
 		{
-			if (Input.GetAxis ("Vertical") != 0 && idle == true)
+			/*if (Input.GetAxis ("Vertical") != 0 && idle == true)
 			{
 				driving = true;
 				idle = false;
@@ -73,7 +73,7 @@ public class Mouvements : NetworkBehaviour {
 				idle = true;
 				_audioS.clip = idleSound;
 				_audioS.Play ();
-			}
+			}*/
 			
 			myTransform.Translate (Vector3.forward * Input.GetAxis ("Vertical") * Time.deltaTime * speed, Space.Self);
 			myTransform.Rotate (0, Input.GetAxis ("Horizontal") * Time.deltaTime * rotSpeed, 0);
@@ -93,8 +93,8 @@ public class Mouvements : NetworkBehaviour {
 			
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
-				_audioS2.clip = _shot;
-				_audioS2.Play();
+				//_audioS2.clip = _shot;
+				//_audioS2.Play();
 				CmdPlayerShootOnServer(shotSpawn.transform.position, myTransform.rotation);
 			}
 			
@@ -134,6 +134,7 @@ public class Mouvements : NetworkBehaviour {
 	void CmdPlayerShootOnServer(Vector3 pos, Quaternion rot)
 	{
 		GameObject obu = (GameObject)Instantiate(Obu, pos, rot);
+        obu.GetComponent<ObuBehaviour>().shooter = this.gameObject;
 		obu.GetComponent<ObuBehaviour>().direction = Quaternion.Euler(0, syncRot, 0);
 		NetworkServer.Spawn(obu);
 	}

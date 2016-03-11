@@ -51,7 +51,7 @@ public class Player_ID : NetworkBehaviour {
 
 	string MakeUniqueIdentity()
 	{
-		string uniqueName = "Player " + playerNetID.ToString();
+        string uniqueName = PlayerPrefs.GetString("playerName");
 		return uniqueName;
 	}
 
